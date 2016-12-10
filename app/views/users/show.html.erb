@@ -1,20 +1,24 @@
-<% if current_user.student %>
-  <h3>Your lessons as a student</h3>
-  <% current_user.student.lessons.each do |l| %>
-    <%= "#{l.teacher.subject} with #{l.teacher.first_name} #{l.teacher.last_name} | " %>
-    <%= "Date & Time: #{l.time} | " %>
-    <%= "For $#{l.teacher.price} per hour" %>
-    <%= link_to "View Lesson", lesson_path(l.id) %><br>
-  <% end %>
-<% end %>
+<% if current_user != nil %>
+  <% if current_user.student %>
+    <h3>Your lessons as a student</h3>
+    <% current_user.student.lessons.each do |l| %>
+      <%= "#{l.teacher.subject} with #{l.teacher.first_name} #{l.teacher.last_name} | " %>
+      <%= "Date & Time: #{l.time} | " %>
+      <%= "For $#{l.teacher.price} per hour" %>
+      <%= link_to "View Lesson", lesson_path(l.id) %><br>
+    <% end %>
+  <% elsif current_user.teacher %>
+    <%= render 'availability_ranges/show' %>
 
-<% if current_user.teacher %>
-  <%= render 'availability_ranges/show' %>
-
-  <h3>Your lessons as a teacher</h3>
-  <% current_user.teacher.lessons.each do |l| %>
-    <%= "Lesson with:#{l.student.first_name} #{l.student.last_name}" %>
-    <%= "Date & Time: #{l.time} | " %>
-    <%= link_to "View Lesson", lesson_path(l.id) %><br>
+    <h3>Your lessons as a teacher</h3>
+    <% current_user.teacher.lessons.each do |l| %>
+      <%= "Lesson with:#{l.student.first_name} #{l.student.last_name}" %>
+      <%= "Date & Time: #{l.time} | " %>
+      <%= link_to "View Lesson", lesson_path(l.id) %><br>
+    <% end %>
+  <% elsif current_user %>
+    <h3>Please sign up as a student or a teacher! </h3>
+  <% else %>
+    <h3>Please log in to see your profile</h3>
   <% end %>
 <% end %>
