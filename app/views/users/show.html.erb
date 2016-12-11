@@ -13,7 +13,9 @@
     <% end %>
 
   <% elsif current_user.teacher %>
+    <% if @teacher.availability_ranges.count > 0 %>
     <%= render 'availability_ranges/show' %>
+    <% end %>
 
     <% if @teacher.availability_ranges.count < 7 %>
       <h4>Add to your availability</h4>
